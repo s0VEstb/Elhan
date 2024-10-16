@@ -1,0 +1,27 @@
+{% extends 'components/navbar.html' %}
+{% load static %}
+{% block content %}
+
+    <h1>Title: {{ post.title }}</h1>
+    {% if post.image %}
+        <img src="{{ post.image.url }}" alt="image" style="width: 500px; height: 400px;">
+    {% endif %}
+    <p>Content: {{ post.content }}</p>
+    <h6>Price: {{ post.rate}}</h6>
+    <p>{{ post.created_at}}</p>
+    <p>{{ post.updated_at}}</p>
+    <p>{{ post.category}}</p>
+    
+    {% for tag in post.tag.all %}
+                            <a href="#" class="btn btn-secondary">{{ tag.name }}</a>
+                        {% endfor %}
+    
+    <h1>Comments</h1>
+    {% for review in post.comments.all %}
+        <p>{{ review.text }}</p>
+        <p>{{ review.created_at }}</p>
+    {% endfor %}
+    
+
+    
+{% endblock %}
