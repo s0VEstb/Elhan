@@ -69,12 +69,18 @@ def create_tag_view(request):
 
 @login_required(login_url='/user/login/')
 def create_comment_view(request, post_id):
+    post = get_object_or_404(Post, id=post_id)  # Fetch the post
     if request.method == 'POST':
         form = CommentForm(request.POST)
-        if not form.is_valid():
-            return render(request, 'posts/post_detail.html', {'form': form})
-        comment = form.save(commit=False)
-        comment.post_id = post_id
-        comment.save()
-        return redirect(f'/post/post_list/{post_id}')
+        if form.is_valid():
+            comment = form.save(commit=False)
+            comment.post = post  # Link the comment to the post object
+            comment.user = request.user  # Optionally associate with the logged-in user
+            comment.save()
+            return redirect('create_review', post_id=post_id)
+    else:
+        form = CommentForm()
+
+    return render(request, 'posts/post_detail.html', {'post': post, 'form': form})
+
 

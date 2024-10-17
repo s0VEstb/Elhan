@@ -11,4 +11,6 @@ urlpatterns = [
     path('create_post/', views.create_post_view),
     path('create_category/', views.create_category_view),
     path('create_tag/', views.create_tag_view),
+    path('posts/<int:post_id>/create_review/', views.create_comment_view, name='create_review'),
+
 ]
